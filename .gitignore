@@ -1,0 +1,12 @@
+# Maven / Java
+target/
+*.log
+*.iml
+*.class
+.mvn/wrapper/maven-wrapper.jar
+# IDE
+.idea/
+.vscode/
+*.swp
+# OS
+.DS_Store
