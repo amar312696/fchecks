@@ -1,6 +1,31 @@
 spring:
   application:
     name: order-svc
+  cloud:
+    function:
+      definition: null
+    stream:
+      bindings:
+        orderCreatedProducer-out-0:
+          destination: order-created
+          content-type: application/json
+          producer:
+            # Use this block to configure the producer
+            # Use 'configuration' when using 'StreamBridge'
+            configuration:
+              # This tells the producer to add a '__TypeId__' header with the class name
+              spring.json.add.type.headers: true
+              # Explicitly use the Spring Kafka JsonSerializer
+              key.serializer: org.apache.kafka.common.serialization.StringSerializer
+              value.serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      kafka:
+        binder:
+          brokers: localhost:9092
+          producer-properties:
+            # This is the crucial part that ensures the serializer is picked up
+            # It explicitly tells the Kafka client what to use
+            value.serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
 
 management:
   endpoints:
